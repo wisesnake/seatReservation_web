@@ -1,0 +1,26 @@
+body {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    text-align: center;
+}
+
+td:not(#title) {
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    background-color: cadetblue;
+}
+
+td:hover:not(#title) {
+    opacity: 80%;
+    cursor: pointer;
+}
+
+table * {
+    border: 1px black solid;
+}
+
+.menu-table {
+    margin: auto;
+}
