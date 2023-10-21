@@ -8,13 +8,6 @@ request.setCharacterEncoding("UTF-8");
 <html>
 <head>
 <c:choose>
-	<c:when test='${msg=="addMember" }'>
-		<script>
-			window.onload = function() {
-				alert("회원을 등록했습니다.");
-			}
-		</script>
-	</c:when>
 	<c:when test='${msg=="modified" }'>
 		<script>
 			window.onload = function() {
@@ -50,6 +43,7 @@ request.setCharacterEncoding("UTF-8");
 	<p class="cls1">회원정보</p>
 	<table align="center" border="1">
 		<tr align="center" bgcolor="lightgreen">
+			<td width="7%"><b>회원번호</b></td>
 			<td width="7%"><b>아이디</b></td>
 			<td width="7%"><b>비밀번호</b></td>
 			<td width="7%"><b>이름</b></td>
@@ -69,13 +63,14 @@ request.setCharacterEncoding("UTF-8");
 			<c:when test="${!empty membersList}">
 				<c:forEach var="mem" items="${membersList }">
 					<tr align="center">
+						<td>${mem.userNo }</td>
 						<td>${mem.user_id }</td>
 						<td>${mem.user_pw }</td>
 						<td>${mem.name }</td>
 						<td>${mem.phoneNum }</td>
 						<td>${mem.joinDate}</td>
-						<td><a href="${contextPath}/member/modMemberForm.do?id=${mem.user_id }">수정</a></td>
-						<td><a href="${contextPath}/member/delMember.do?id=${mem.user_id }">삭제</a></td>
+						<td><a href="${contextPath}/member/modMemberForm.do?user_id=${mem.user_id }">수정</a></td>
+						<td><a href="${contextPath}/member/adminDelMember.do?user_id=${mem.user_id }">삭제</a></td>
 						<!-- 수정 혹은 삭제 요청 시, 파라미터에 id 에 첫번째 td의 값 즉, 해당 유저의 id 태워서 보내서 회원정보찾기 메소드에 씀. -->
 
 					</tr>
@@ -83,6 +78,6 @@ request.setCharacterEncoding("UTF-8");
 			</c:when>
 		</c:choose>
 	</table>
-	<a href="${contextPath}/member/memberForm.do"><p class="cls2">회원 가입하기</p></a>
+	<a href="${contextPath}/menu.jsp"><p class="cls2">메뉴로 돌아가기</p></a>
 </body>
 </html>

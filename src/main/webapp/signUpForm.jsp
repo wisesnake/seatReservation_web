@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="seat_web.members.*"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 
@@ -8,7 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form method="post" action="addMember.do">
+	<form method="post" action="${contextPath}/member/addMember.do">
 		<h1 style="text-align: center">회원 가입창</h1>
 		<table align="center">
 			<tr>
@@ -27,7 +28,7 @@
 				<td width="200">
 					<p align="right">비밀번호 확인
 				</td>
-				<td width="400"><input id="confirm_password" type="password" name="user_pw"></td>
+				<td width="400"><input id="confirm_password" type="password"></td>
 			</tr>
 			<tr>
 				<td width="200">
@@ -48,7 +49,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" height="22"><div id="msg" /></td>
+				<td colspan="2" height="22" style='text-align:right'><div id="msg" /></td>
 			</tr>
 			<tr>
 				<td width="200">

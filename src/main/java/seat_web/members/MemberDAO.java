@@ -45,7 +45,7 @@ public class MemberDAO {
 				int userNo = rs.getInt("userNo");
 				String user_id = rs.getString("user_id");
 				String user_pw = rs.getString("user_pw");
-				String phoneNum = rs.getString("phone");
+				String phoneNum = rs.getString("phoneNum");
 				String name = rs.getString("name");
 				Date joinDate = rs.getDate("joinDate");
 				
@@ -68,27 +68,25 @@ public class MemberDAO {
 		return list;
 	}
 	
-	public void addMember(MemberVO custVO) {
-		int userNo = giveUserNo();
-		System.out.println(userNo);
+	public void addMember(MemberVO memberVO) {
+
 		try {
 			Connection con = dataFactory.getConnection();
 			int userType = 2;
-			String id = custVO.getUser_id();
-			String pwd = custVO.getUser_pw();
-			String phoneNum = custVO.getPhoneNum();
+			String id = memberVO.getUser_id();
+			String pwd = memberVO.getUser_pw();
+			String phoneNum = memberVO.getPhoneNum();
+			String name = memberVO.getName();
 			String query = "insert into member";
-			String name = custVO.getName();
-			query += " (usertype,userNo,user_id,user_pw,phone,name)";
-			query += " values(?,?,?,?,?,?)";
+			query += " (usertype,userNo,user_id,user_pw,phoneNum,name,joinDate)";
+			query += " values(?,userNo.nextval,?,?,?,?,sysdate)";
 			System.out.println("prepareStatememt: " + query);
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, userType);
-			pstmt.setInt(2, userNo);
-			pstmt.setString(3, id);
-			pstmt.setString(4, pwd);
-			pstmt.setString(5, phoneNum);
-			pstmt.setString(6, name);
+			pstmt.setString(2, id);
+			pstmt.setString(3, pwd);
+			pstmt.setString(4, phoneNum);
+			pstmt.setString(5, name);
 			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (Exception e) {
@@ -96,33 +94,47 @@ public class MemberDAO {
 		}
 	}
 	
-	public int giveUserNo() {
-		System.out.println("메서드 호출");
-		int userNo = 0;
+	
+	public void modUserInfo(MemberVO memberVO) {
 		try {
 			Connection con = dataFactory.getConnection();
-			String query = "SELECT MAX(userNo) + 1 FROM member";
+			String id = memberVO.getUser_id();
+			String pwd = memberVO.getUser_pw();
+			String phoneNum = memberVO.getPhoneNum();
+			String name = memberVO.getName();
+			String query = "update member set user_pw=?,phoneNum=?,name=? where user_id=?";
 			System.out.println("prepareStatememt: " + query);
 			pstmt = con.prepareStatement(query);
-			ResultSet rs = pstmt.executeQuery();
-			userNo=rs.getInt("userNo");
-			System.out.println("다음 회원등록 유저번호 : " + userNo);
-			rs.close();
+			pstmt.setString(1, pwd);
+			pstmt.setString(2, phoneNum);
+			pstmt.setString(3, name);
+			pstmt.setString(4, id);
+			pstmt.executeUpdate();
 			pstmt.close();
-			con.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return userNo;
 	}
 	
-	public void modUserInfo(MemberVO memberVO) {
-		
+	public void delUser(String id) {
+		try {
+			Connection con = dataFactory.getConnection();
+			String query = "delete from member where user_id = ?";
+			System.out.println("prepareStatememt: " + query);
+			System.out.println(id);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public MemberVO searchMemberInfo(String _id) {
 		MemberVO userInfo = null;
 		try {
+			System.out.println(_id);
 			Connection con = dataFactory.getConnection();
 			String query = "select * from member where user_id = ?";
 			pstmt = con.prepareStatement(query);
@@ -133,7 +145,7 @@ public class MemberDAO {
 			int userNo = rs.getInt("userNo");
 			String user_id = rs.getString("user_id");
 			String user_pw = rs.getString("user_pw");
-			String phoneNum = rs.getString("phone");
+			String phoneNum = rs.getString("phoneNum");
 			String name = rs.getString("name");
 			Date joinDate = rs.getDate("joinDate");
 			

@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <%
@@ -31,6 +32,13 @@ form {
 	/* 내용물과 폼 요소들 사이에 간격 추가 */
 }
 </style>
+	<c:if test='${msg=="addMember" }'>
+		<script>
+			window.onload = function() {
+				alert("회원을 등록했습니다.");
+			}
+		</script>
+	</c:if>
 </head>
 
 <body>
@@ -40,12 +48,13 @@ form {
 	%>
 	<div>
 		<form name="frmLogin" method="post" action="login" encType="UTF-8">
-			환영합니다<br> 철도 좌석 예약 시스템<br> 
+			환영합니다<br> 
+			철도 좌석 예약 시스템<br> 
 			아이디 : <input type="text" name="user_id"><br> 
 			비밀번호: <input type="password" name="user_pw"><br> 
-			<input type="submit" value="로그인">	<input type="reset" value="다시입력"><br>
-			<input type="button" value="회원가입"  style="WIDTH: 100px; HEIGHT: 100px" onclick="signUp()">
+			<input type="submit" value="로그인"> <input type="reset" value="다시입력"><br> 
 		</form>
+			<input type="button" value="회원가입" style="WIDTH: 100px; HEIGHT: 100px" onclick="location.href='${contextPath}/member/signUpForm.do'">
 	</div>
 	<%
 	} else if (isLogon && isLogon != null) {
@@ -56,11 +65,7 @@ form {
 	<%
 	}
 	%>
-	<script>
-		function signUp(){
-			window.open("/seat_web/signUpForm.jsp");
-		}
-	</script>
+
 </body>
 
 </html>
